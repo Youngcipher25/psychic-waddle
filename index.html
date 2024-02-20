@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eBook Store</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>eBook Store</h1>
+    <a href="/cart" class="cart-button">View Cart</a>
+    <ul>
+        {% for ebook in ebooks %}
+            <li>
+                <h2>{{ ebook["title"] }}</h2>
+                <div class="book-container">
+                    <img src="{{ url_for('static', filename=ebook["image"]) }}" alt="{{ ebook["title"] }} Image">
+                    <div class="description">
+                        <p>{{ ebook["description"] }}</p>
+                    </div>
+                </div>
+                <p>Price: ${{ ebook["price"] }}</p>
+                <form method="POST" action="/add_to_cart">
+                    <input type="hidden" name="ebook_id" value="{{ ebook["id"] }}">
+                    <input type="submit" value="Add to Cart">
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

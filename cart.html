@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Your Shopping Cart</h1>
+    {% if cart_items %}
+        <form method="POST" action="/update_cart">
+            <ul>
+                {% for item in cart_items %}
+                    <li>
+                        <h2>{{ item["book"]["title"] }}</h2>
+                        <p>Price: ${{ item["book"]["price"] }}</p>
+                        <input type="hidden" name="ebook_id" value="{{ item["book"]["id"] }}">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" name="quantity_{{ item["book"]["id"] }}" value="{{ item["quantity"] }}" min="0">
+                    </li>
+                {% endfor %}
+            </ul>
+            <input type="submit" value="Update Cart" class="update-button">
+        </form>
+        
+        <a href="/checkout" class="cart-button">Proceed to Checkout</a>
+        <a href="/" class="cart-button">Back to Shopping</a>
+    {% else %}
+        <p class="empty-cart-message">Your cart is empty.</p>
+        <a href="/" class="cart-button">Back to Shopping</a>
+    {% endif %}
+</body>
+</html>
